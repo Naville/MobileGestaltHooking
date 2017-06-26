@@ -1,0 +1,5 @@
+packages/
+obj/
+libcapstone.a
+.DS_Store
+.theos
