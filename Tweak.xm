@@ -2,8 +2,9 @@
 #import "capstone.h"
 static CFStringRef (*old_MGCA)(CFStringRef Key);
 CFStringRef new_MGCA(CFStringRef Key){
-        NSLog(@"MGHooker:%@",Key);
-        return old_MGCA(Key);
+        CFStringRef Ret=old_MGCA(Key);
+        NSLog(@"MGHooker:%@\nReturn Value:%@",Key,Ret);
+        return Ret;
 }
 %ctor {
         void * Symbol=MSFindSymbol(MSGetImageByName("/usr/lib/libMobileGestalt.dylib"), "_MGCopyAnswer");
@@ -34,12 +35,13 @@ CFStringRef new_MGCA(CFStringRef Key){
                         ...
                         We need to hook the second BL
                         */
-                        size_t counter=0;
+                        //size_t counter=0;
                         for (size_t j = 0; j < count; j++) {
-                                if(strcmp(insn[j].mnemonic,"bl")==0){
-                                  counter++;
-                                }
-                                if(counter==2){
+                              //  if(strcmp(insn[j].mnemonic,"bl")==0){
+                              //    counter++;
+                              //  }
+                              NSLog(@"0x%" PRIx64 ":\t%s\t\t%s\n", insn[j].address, insn[j].mnemonic,insn[j].op_str);
+                                if(insn[j].id==ARM64_INS_B){
                                   //Found the second BL
                                   BLInstruction=insn[j];
                                   //NSLog(@"0x%" PRIx64 ":\t%s\t\t%s\n", insn[j].address, insn[j].mnemonic,insn[j].op_str);
