@@ -1,0 +1,8 @@
+Package: com.yourcompany.testmg
+Name: TestMG
+Version: 0.0.1
+Architecture: iphoneos-arm
+Description: An awesome application!
+Maintainer: Naville Zhang
+Author: Naville Zhang
+Section: Utilities

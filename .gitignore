@@ -1,5 +1,5 @@
 packages/
 obj/
-libcapstone.a
+Tweak/libcapstone.a
 .DS_Store
 .theos
