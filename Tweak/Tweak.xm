@@ -24,30 +24,11 @@ CFStringRef new_MGCA(CFStringRef Key){
                 count=cs_disasm(handle,(const uint8_t *)Symbol,0x1000,(uint64_t)Symbol,0,&insn);
                 if (count > 0) {
                         NSLog(@"Found %lu instructions",count);
-                        /*
-                        0000000180d2c294 010080D2               movz       x1, #0x0                     ; CODE XREF=sub_180d295ac+48, sub_180d29eac+40, sub_180d2a568+32, __MGWriteCache+152, __MGWriteCache+388, sub_180d3a278+968, sub_180d3a278+1252, sub_180d3a278+1468, sub_180d3a278+3148, sub_180d3ef74+1236
-                        0000000180d2c298 01000014               b          loc_180d2c29c
-                        loc_180d2c29c:
-                        ...
-                        0000000180d2c2c0 B7FDFF97               bl         sub_180d2b99c
-                        ...
-                        0000000180d2c2cc DBFDFF97               bl         sub_180d2ba38
-                        ...
-                        We need to hook the second BL
-                        */
-                        //size_t counter=0;
                         for (size_t j = 0; j < count; j++) {
-                              //  if(strcmp(insn[j].mnemonic,"bl")==0){
-                              //    counter++;
-                              //  }
                               NSLog(@"0x%" PRIx64 ":\t%s\t\t%s\n", insn[j].address, insn[j].mnemonic,insn[j].op_str);
                                 if(insn[j].id==ARM64_INS_B){
-                                  //Found the second BL
                                   BLInstruction=insn[j];
-                                  //NSLog(@"0x%" PRIx64 ":\t%s\t\t%s\n", insn[j].address, insn[j].mnemonic,insn[j].op_str);
-                                  //NSLog(@"%s",BLInstruction.op_str);
                                   sscanf(BLInstruction.op_str, "#%lx", &realMGAddress);
-                                  //NSLog(@"0x%lx",realMGAddress);
                                   break;
                                 }
                         }
